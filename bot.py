@@ -3,18 +3,16 @@ import tweepy
 from secrets import *
 from time import gmtime, strftime
 
-
 # ====== Individual bot configuration ==========================
-bot_username = ''
+bot_username = 'SSNAlerta'
 logfile_name = bot_username + ".log"
-
 # ==============================================================
 
 
 def create_tweet():
     """Create the text of the tweet you want to send."""
     # Replace this with your code!
-    text = "Test"
+    text = "Test 5"
     return text
 
 
