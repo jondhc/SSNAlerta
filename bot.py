@@ -24,11 +24,12 @@ def get_tweets(screen_name):
         searchStr = r"Magnitud ([\d\.]+)"
         tweetStr = tweet.text
         magnitude_match = re.search(searchStr, tweetStr)
-        magnitude = float(magnitude_match.group(1))
-        if magnitude >= 4:
-            print "Sismo mayor: " + tweet.text
-        else:
-            print "Menor a 4"
+        if magnitude_match:
+            magnitude = float(magnitude_match.group(1))
+            if magnitude >= 4:
+                print "Sismo mayor: " + tweet.text
+            else:
+                print "Menor a 4"
 
 
 
@@ -67,5 +68,5 @@ def log(message):
 
 if __name__ == "__main__":
     get_tweets("SismologicoMX")
-    tweet_text = create_tweet()
-    tweet(tweet_text)
+    # tweet_text = create_tweet()
+    # tweet(tweet_text)
