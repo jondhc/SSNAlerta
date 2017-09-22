@@ -9,6 +9,8 @@ from secrets import *
 # ====== Individual bot configuration ==========================
 bot_username = 'SSNAlerta'
 logfile_name = bot_username + ".log"
+
+
 # ==============================================================
 
 def get_tweets(screen_name):
@@ -18,21 +20,21 @@ def get_tweets(screen_name):
     api = tweepy.API(auth)
     # Initialize a list to hold all the tweets
     tweet_holder = []
-    new_tweets = api.user_timeline(screen_name=screen_name, count=2000)
+    new_tweets = api.user_timeline(screen_name=screen_name, count=200)
     tweet_holder.extend(new_tweets)
     for tweet in tweet_holder:
+        topMagnitude = 5
         searchStr = r"Magnitud ([\d\.]+)"
         tweetStr = tweet.text
         magnitude_match = re.search(searchStr, tweetStr)
         if magnitude_match:
             magnitude = float(magnitude_match.group(1))
-            if magnitude >= 4:
+            if magnitude >= topMagnitude:
                 print "Sismo mayor: " + tweet.text
             else:
-                print "Menor a 4"
-
-
-
+                print "Menor a " + str(topMagnitude)
+        else:
+            print "Match not found"
 
 
 def create_tweet():
