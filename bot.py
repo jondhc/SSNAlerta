@@ -32,7 +32,7 @@ def get_tweets(screen_name):
             if magnitude >= topMagnitude:
                 print "Sismo mayor: " + tweet.text
             else:
-                print "Menor a " + str(topMagnitude)
+                print "Sismo menor. Magnitud seleccionada: " + str(topMagnitude)
         else:
             print "Match not found"
 
@@ -40,7 +40,7 @@ def get_tweets(screen_name):
 def create_tweet():
     """Create the text of the tweet you want to send."""
     # Replace this with your code!
-    text = "Test..."
+    text = "Test"
     return text
 
 
