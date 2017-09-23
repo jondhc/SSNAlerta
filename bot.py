@@ -17,6 +17,9 @@ auth = tweepy.OAuthHandler(C_KEY, C_SECRET)
 auth.set_access_token(A_TOKEN, A_TOKEN_SECRET)
 api = tweepy.API(auth)
 
+topMagnitude = 4
+searchStr = r"Magnitud ([\d\.]+)"
+
 
 class TwitterStreaming(tweepy.StreamListener):
     def __init__(self, api=None):
@@ -24,7 +27,12 @@ class TwitterStreaming(tweepy.StreamListener):
 
     def on_status(self, status):
         if status.user.screen_name == "SismologicoMX":
-            print status.text.encode('utf-8') + "\n"
+            tweetStr = status.text
+            magnitude_match = re.search(searchStr, tweetStr)
+            if magnitude_match:
+                magnitude = float(magnitude_match.group(1))
+                if magnitude >= topMagnitude:
+                    api.update_status(tweetStr)
 
 
 def twitStream():
