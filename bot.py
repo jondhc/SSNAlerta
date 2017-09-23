@@ -3,15 +3,30 @@ import re
 from time import gmtime, strftime
 
 import tweepy
+from tweepy.api import API
 
 from secrets import *
 
 # ====== Individual bot configuration ==========================
 bot_username = 'SSNAlerta'
 logfile_name = bot_username + ".log"
-
-
 # ==============================================================
+
+class TwitterStreaming(tweepy.StreamListener):
+    def __init__(self, api=None):
+        self.api = api or API()
+
+    def on_status(self, status):
+        print status.text.encode('utf-8') + "\n"
+
+
+def twitStream():
+    # Twitter authentication
+    auth = tweepy.OAuthHandler(C_KEY, C_SECRET)
+    auth.set_access_token(A_TOKEN, A_TOKEN_SECRET)
+    api = tweepy.API(auth)
+    stream = tweepy.streaming.Stream(auth, TwitterStreaming())
+    stream.filter(track=['SISMO Magnitud'], languages=['es'])
 
 def get_tweets(screen_name):
     # Twitter authentication
@@ -34,7 +49,7 @@ def get_tweets(screen_name):
             else:
                 print "Sismo menor. Magnitud seleccionada: " + str(topMagnitude)
         else:
-            print "Match not found"
+            print "Match not found: " + tweet.text
 
 
 def create_tweet():
@@ -69,6 +84,7 @@ def log(message):
 
 
 if __name__ == "__main__":
-    get_tweets("SismologicoMX")
+    # get_tweets("SismologicoMX")
     # tweet_text = create_tweet()
     # tweet(tweet_text)
+    twitStream()
